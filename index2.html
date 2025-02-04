@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarot Sorteio</title>
+    <style>
+        body {
+            background-image: url('principal.jpg');
+            background-size: 100% calc(100vh + 2cm);
+            /* Aumenta a altura da imagem em 2 cm */
+            background-position: center top;
+            /* Alinha a imagem ao topo da tela */
+            background-attachment: fixed;
+            /* A imagem fica fixa ao rolar a página */
+            background-repeat: no-repeat;
+            /* Evita que a imagem se repita */
+            font-family: Arial, sans-serif;
+        }
+
+        /* Para dispositivos móveis */
+        @media (max-width: 768px) {
+            body {
+                background-image: url('principal.jpg');
+                background-size: cover;
+                /* Usa 'cover' para garantir que a imagem preencha a tela sem distorção */
+                background-position: center;
+                /* Centraliza a imagem */
+
+            }
+        }
+
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            height: 100vh;
+            /* Faz o container preencher toda a altura da tela */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* Centraliza o conteúdo verticalmente */
+            align-items: center;
+            /* Centraliza o conteúdo horizontalmente */
+            margin-top: 0;
+            /* Remove a margem superior */
+            transform: translate(1.6cm, -1cm);
+            /* posição do container não centralizado */
+
+        }
+
+        /* Ajustes para dispositivos móveis */
+        @media (max-width: 768px) {
+            .container {
+                margin-top: 0;
+                /* Garante que não haja margem superior */
+            }
+        }
+
+
+
+        /* Para dispositivos móveis */
+        @media (max-width: 768px) {
+            .container {
+                height: 100vh;
+                /* Define a altura para 100% da altura da tela */
+                padding: 0;
+                /* Remove o padding para permitir que o contêiner ocupe toda a altura */
+                margin-top: 0;
+                /* Remove a margem superior */
+            }
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: transparent;
+            color: transparent;
+            ;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: transparent;
+            /* Mantém transparente ao passar o mouse */
+        }
+
+        .card-container {
+            position: relative;
+            width: 230px;
+            height: 330px;
+            margin: 20px auto;
+            perspective: 1000px;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+            transform: rotateY(180deg);
+        }
+
+        .card.is-flipped {
+            transform: rotateY(0);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+
+        }
+
+        .card-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+            /* Sombra da imagem */
+
+
+        }
+
+        .card-back {
+            background-image: url('fd1.jpg');
+            background-size: cover;
+            background-position: right center;
+            /* Move a imagem para a direita */
+            transform: rotateY(180deg);
+        }
+
+        /* Botão transparente que cobre o container da carta */
+        .button-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <audio id="somSorteio" src="ms.mp3" preload="auto"></audio>
+    <div class="container">
+        <div class="card-container">
+            <div class="card" id="card">
+                <div class="card-face card-back"></div>
+                <div class="card-face card-front">
+                    <img id="card-image" src="" alt="Carta de Tarot"
+                        style="max-width: 100%; max-height: 100%; border-radius: 10px;">
+                </div>
+            </div>
+            <!-- Botão transparente que cobre a carta inteira -->
+            <button class="button-overlay" onclick="sortearCarta()"></button>
+        </div>
+    </div>
+
+    <script>
+        const cartas = [
+            'HOGWARTS/imagem_com_-As8AxRFSd-qcpdZljkriA.jpeg',
+            'HOGWARTS/imagem_com_-iwo6cQfSgKaGHC-Qb-gDg.jpeg',
+            'HOGWARTS/imagem_com_-nV_pwndT2mRDPvzQs8N4w.jpeg',
+            'HOGWARTS/imagem_com_-Qcu-LZXQU-Ok9CqgXqlDw.jpeg',
+            'HOGWARTS/imagem_com_-Tw62UvCS2ClfbIpJEkNWw.jpeg',
+            'HOGWARTS/imagem_com_-x75Xx6vQSK7LXP_1MB2AQ.jpeg',
+            'HOGWARTS/imagem_com_07NJU1rMQdG6-jhYVXg0Sw.jpeg',
+            'HOGWARTS/imagem_com_0sBdq3GuTHSQ4WVNmvPWdA.jpeg',
+            'HOGWARTS/imagem_com_16YRIzRBQoKECXwZYvyraw.jpeg',
+            'HOGWARTS/imagem_com_1EkjEgtESxezgqqH7iNdUA.jpeg',
+            'HOGWARTS/imagem_com_1HJGEjP9R1ufwyrD5fEv6Q.jpeg',
+            'HOGWARTS/imagem_com_1OCSoIBKS2GI8ktY5cmC7A.jpeg',
+            'HOGWARTS/imagem_com_2B6RG36PQyaG0XEEMzojeQ.jpeg',
+            'HOGWARTS/imagem_com_2cl1jfTuT5GzLFUheqW27g.jpeg',
+            'HOGWARTS/imagem_com_2GWF-AecS3yqx72Y8lw7dA.jpeg',
+            'HOGWARTS/imagem_com_2IPBORTkSWSeFsCCG5inqw.jpeg',
+            'HOGWARTS/imagem_com_2wh9wktLQXqjXVnWYymj-Q.jpeg',
+            'HOGWARTS/imagem_com_33UIJ5kWRwWzhsxnkCee6g.jpeg',
+            'HOGWARTS/imagem_com_35h7KzHcRfOZIqIuNZNY9w.jpeg',
+            'HOGWARTS/imagem_com_3zrRDrBiTfunx6DDppPpZw.jpeg',
+            'HOGWARTS/imagem_com_4mcdF_dERQSMiGxr-0wWhg.jpeg',
+            'HOGWARTS/imagem_com_4w_VSXm6QdKab4ATjpDHxw.jpeg',
+            'HOGWARTS/imagem_com_5jo_tFIGQqarCFQHrgivJQ.jpeg',
+            'HOGWARTS/imagem_com_5OUTwXxUQXqI6XZUXr3bWQ.jpeg',
+            'HOGWARTS/imagem_com_5xlwnDeEQRyyBUGaFVHqhg.jpeg',
+            'HOGWARTS/imagem_com_5_vU5yCER4K7UNv36E-STg.jpeg',
+            'HOGWARTS/imagem_com_6g_S-TwjR8i_MIX0TpkV2A.jpeg',
+            'HOGWARTS/imagem_com_6Jj1Ce-STXW333bi-QF1Dg.jpeg',
+            'HOGWARTS/imagem_com_6x66kmmARnOkXpk-QYLc5g.jpeg',
+            'HOGWARTS/imagem_com_72dd7MQrST2I-HPP-OQhXw.jpeg',
+            'HOGWARTS/imagem_com_798w-YLMTby0oeti3GDFfA.jpeg',
+            'HOGWARTS/imagem_com_7EnKQkICSd2VXfNAXJ7g2Q.jpeg',
+            'HOGWARTS/imagem_com_7enQxc4iSKulzIUZf1hxvw.jpeg',
+            'HOGWARTS/imagem_com_7PgZmFmERraqOonrTX_KoQ.jpeg',
+            'HOGWARTS/imagem_com_7_zGJrTeSV6ua5NtdFlQkg.jpeg',
+            'HOGWARTS/imagem_com_8-62IO5QRpOWwp9kKEudQg.jpeg',
+            'HOGWARTS/imagem_com_8CFxHyQ8RverDe6slFT21Q.jpeg',
+            'HOGWARTS/imagem_com_8FJZyHeCRo6dN-KKxIrxzw.jpeg',
+            'HOGWARTS/imagem_com_8nwHy1StQpKp96uVosIuwg.jpeg',
+            'HOGWARTS/imagem_com_91h-7BhZSeCLDuMgjjk3cw.jpeg',
+            'HOGWARTS/imagem_com_99Rgpy2VRcCfguG8JO_wpQ.jpeg',
+            'HOGWARTS/imagem_com_9kWZOS5mQm2cKarw-nvcQw.jpeg',
+            'HOGWARTS/imagem_com_A6W9iOj3Tou0UOkvXyQRcg.jpeg',
+            'HOGWARTS/imagem_com_a968MyQaT7yifE_yT2HqUw.jpeg',
+            'HOGWARTS/imagem_com_ABG9zFk_RHm7pfqMR3Lt0Q.jpeg',
+            'HOGWARTS/imagem_com_AeeXuPTBSPm9D2bOCSzgXw.jpeg',
+            'HOGWARTS/imagem_com_aGGo4q8MSzqvZByIGoZt2g.jpeg',
+            'HOGWARTS/imagem_com_anS4PZOTTwuL-xJAVkNveA.jpeg',
+            'HOGWARTS/imagem_com_b-t4ZuA6QUiAvaFMZqprTA.jpeg',
+            'HOGWARTS/imagem_com_B1mRkJSiStG4IZ4PnO2teA.jpeg',
+            'HOGWARTS/imagem_com_BsVegevMRzKNM4bxTX6-Aw.jpeg',
+            'HOGWARTS/imagem_com_BW8qVaHzSy-DSZ7v-fN4uA.jpeg',
+            'HOGWARTS/imagem_com_C1Nb6CWcQR-9uQw0BUzTHA.jpeg',
+            'HOGWARTS/imagem_com_C5n_zPj5QQKMKfNz58v8wg.jpeg',
+            'HOGWARTS/imagem_com_CBe0QeRQSJmNsb3nAKxIog.jpeg',
+            'HOGWARTS/imagem_com_CH8Pfp_VSfebJTmV8BHHPQ.jpeg',
+            'HOGWARTS/imagem_com_d2stKc9QQA25U-ifoHsRnQ.jpeg',
+            'HOGWARTS/imagem_com_D5EUqidlQf608LW4xJV3Og.jpeg',
+            'HOGWARTS/imagem_com_dc9vu_BpT6aDdvBWX3x_wA.jpeg',
+            'HOGWARTS/imagem_com_Df8L1aLKQsadp4AYUBHegg.jpeg',
+            'HOGWARTS/imagem_com_dGHoc9GeTyGRvaxhrJO3sw.jpeg',
+            'HOGWARTS/imagem_com_DMzsN0JWQCKU0fID2BtN3g.jpeg',
+            'HOGWARTS/imagem_com_DzQL82WOR5a-9dgECxPD-w.jpeg',
+            'HOGWARTS/imagem_com_EBmEyHBXRO2SwnOBiI4dsQ.jpeg',
+            'HOGWARTS/imagem_com_egNHuWcXQje258pvgoILWg.jpeg',
+            'HOGWARTS/imagem_com_EjEn6-I8Q-K2CjDehG7tSw.jpeg',
+            'HOGWARTS/imagem_com_ekLXD3Z-T6uoDoP9hC7X-A.jpeg',
+            'HOGWARTS/imagem_com_EmuWDgcMQt6l2CCxgOeoKA.jpeg',
+            'HOGWARTS/imagem_com_FNVYDEj9R72DcuQ7QdmTpQ.jpeg',
+            'HOGWARTS/imagem_com_FqNv9lJyRbK7XoxcGHBGiQ.jpeg',
+            'HOGWARTS/imagem_com_FX-fEUYPQJCM4br3jcDtWw.jpeg',
+            'HOGWARTS/imagem_com_GeSTdDYXQqSP9Q81silbxA.jpeg',
+            'HOGWARTS/imagem_com_gevIltCWQR-a5XSLQ4KsRQ.jpeg',
+            'HOGWARTS/imagem_com_GkruwzyhTfaBMu4KMA8NWA.jpeg',
+            'HOGWARTS/imagem_com_GnfQY6pnSS2hQuKux3GuVw.jpeg',
+            'HOGWARTS/imagem_com_GvOdJcRSTcCN-BSxbP2prg.jpeg',
+            'HOGWARTS/imagem_com_HCDtplP1Q8qWlBv2urfREg.jpeg',
+            'HOGWARTS/imagem_com_hdI62lQMQtOG9MBL49kIiA.jpeg',
+            'HOGWARTS/imagem_com_id_f8wgpR4OKp_rVztiVwQ.jpeg',
+            'HOGWARTS/imagem_com_IGNKnDckTgmn_cq2wZs27g.jpeg',
+            'HOGWARTS/imagem_com_ipz9z8o_RDSsXLLm5h9U8Q.jpeg',
+            'HOGWARTS/imagem_com_IV908MeyQ7WFGkMKuOO9zA.jpeg',
+            'HOGWARTS/imagem_com_iw4BMyq1SNqyeA9Nj1s9JA.jpeg',
+            'HOGWARTS/imagem_com_jDQyMUK3QyyiLGD8SCpyhw.jpeg',
+            'HOGWARTS/imagem_com_jGH37f1-Re2QxEMMsiLC7Q.jpeg',
+            'HOGWARTS/imagem_com_jOkXlCrxQr2iP710M61sFg.jpeg',
+            'HOGWARTS/imagem_com_J_hg8aKpTDWCUCQQKaw9Rw.jpeg',
+            'HOGWARTS/imagem_com_KAilYFxWTPCb8RLkyuTfMg.jpeg',
+            'HOGWARTS/imagem_com_KEvwI0-7S8C5YIgcCbqeUA.jpeg',
+            'HOGWARTS/imagem_com_Km3QdMMdT06g3JI7alXo5A.jpeg',
+            'HOGWARTS/imagem_com_L-b66354TTmgPNFm0fWhMg.jpeg',
+            'HOGWARTS/imagem_com_l7w6f8nDT6moMdr9Z3Rtrw.jpeg',
+            'HOGWARTS/imagem_com_LTJwaYz3TZyFwwrzWwv6OQ.jpeg',
+            'HOGWARTS/imagem_com_LTWBBj0-RP2fH-0LQuZ5dQ.jpeg',
+            'HOGWARTS/imagem_com_lxnvaw52Sc2cRA7UuuxZ7w.jpeg',
+            'HOGWARTS/imagem_com_M3B_vsnPTZOXAG5_hu-74A.jpeg',
+            'HOGWARTS/imagem_com_mBRxiT9pQlez4qVlvfHgxw.jpeg',
+            'HOGWARTS/imagem_com_metXQ3jhT0mtSZscDN4Gyw.jpeg',
+            'HOGWARTS/imagem_com_nLnMc6mxQFuF95dtheNRPA.jpeg',
+            'HOGWARTS/imagem_com_Nmqmj-kCRSOx0l4l11eH1A.jpeg',
+            'HOGWARTS/imagem_com_Noag9ujXRb2tcGIlRWoyww.jpeg',
+            'HOGWARTS/imagem_com_nrft-vaUQi-efi9E6hulOg.jpeg',
+            'HOGWARTS/imagem_com_NUZcGb0WRua7aTsSgSDBFA.jpeg',
+            'HOGWARTS/imagem_com_NwHPtkxOQYWQygKA8wGVpg.jpeg',
+            'HOGWARTS/imagem_com_NZ5d0Je9QGGPnJnGDj1hTA.jpeg',
+            'HOGWARTS/imagem_com_OdoxGU5iQx230vtCBafSEQ.jpeg',
+            'HOGWARTS/imagem_com_OLytCMInT8S47HkbGF6foA.jpeg',
+            'HOGWARTS/imagem_com_oNrbE5oTQYe4sGq5rkqulg.jpeg',
+            'HOGWARTS/imagem_com_p81HnZLFSvCWQf89fQVDXw.jpeg',
+            'HOGWARTS/imagem_com_pt0A6FJiRYSS0f_5P6DZQQ.jpeg',
+            'HOGWARTS/imagem_com_pU_rtTDZQlma3sI4_DbAGQ.jpeg',
+            'HOGWARTS/imagem_com_PzCwyp7FRrqHFNEgMT_9Uw.jpeg',
+            'HOGWARTS/imagem_com_P_u2FeXnQrK8gcOCojMabg.jpeg',
+            'HOGWARTS/imagem_com_q-jVOsBySrWz41TtuL8Rbg.jpeg',
+            'HOGWARTS/imagem_com_q10-o1MMRoudQJnT14HopQ.jpeg',
+            'HOGWARTS/imagem_com_Q2Nvkfl3R0GUxStr9wKw7Q.jpeg',
+            'HOGWARTS/imagem_com_q9B3ByjdRICx91HRzx7yHw.jpeg',
+            'HOGWARTS/imagem_com_qch6Gxw0R9Snk_Ww9-_Sfg.jpeg',
+            'HOGWARTS/imagem_com_Qgfz4ZVFSWOERNJrBVouxw.jpeg',
+            'HOGWARTS/imagem_com_QhQXvAC5TEm7UWI8EMyRLw.jpeg',
+            'HOGWARTS/imagem_com_QlPv-lp2Q2KszPt-IJSr9Q.jpeg',
+            'HOGWARTS/imagem_com_QOlgwQ-vTOKHXTEm-88NHw.jpeg',
+            'HOGWARTS/imagem_com_Rt7-IFDKQEOsE_wX_no0pg.jpeg',
+            'HOGWARTS/imagem_com_sdbPlCOyQ_WHjNqfDFeKQQ.jpeg',
+            'HOGWARTS/imagem_com_spKt75KgRReUUAjchGq2mg.jpeg',
+            'HOGWARTS/imagem_com_Srf4QiIYT_2FrPi4BsimDA.jpeg',
+            'HOGWARTS/imagem_com_stmIz_BxQUO6uBr8m0lWmQ.jpeg',
+            'HOGWARTS/imagem_com_TBSYwfrWRlKMpQSGTQd8hQ.jpeg',
+            'HOGWARTS/imagem_com_TrCpid1MS6aqxq0E3EooIA.jpeg',
+            'HOGWARTS/imagem_com_TT0ODfP2QJKLjktk27s9Gw.jpeg',
+            'HOGWARTS/imagem_com_TYcUWJsSTYmSlGeLMLxBxQ.jpeg',
+            'HOGWARTS/imagem_com_uvzARd3xTh-JLIbdkxgT5A.jpeg',
+            'HOGWARTS/imagem_com_V26bqDRyRFOdUoNcY1NYNg.jpeg',
+            'HOGWARTS/imagem_com_V2m_nrjlToiKgWlip-BJWw.jpeg',
+            'HOGWARTS/imagem_com_vfWTxxt_SkaRRF1NrEnrjQ.jpeg',
+            'HOGWARTS/imagem_com_vgcB9XDeQM2v3wyreN8dEA.jpeg',
+            'HOGWARTS/imagem_com_VtrGcbFbQq2PQhqWdKRyXA.jpeg',
+            'HOGWARTS/imagem_com_vupx4lH1T22STkyGDOOGDg.jpeg',
+            'HOGWARTS/imagem_com_VwIyPWG-SY2-pzRRiSq40A.jpeg',
+            'HOGWARTS/imagem_com_VxwWhiSNTwyz2J6wu72b-A.jpeg',
+            'HOGWARTS/imagem_com_WLNsKdsyQz-UM3fq3B31pA.jpeg',
+            'HOGWARTS/imagem_com_WWk9mzw7RT6YFjIXY2ihAA.jpeg',
+            'HOGWARTS/imagem_com_xcr8WoUwT5OuzgscSYirYQ.jpeg',
+            'HOGWARTS/imagem_com_XSxytoWaQz6aWXpWGGu_OA.jpeg',
+            'HOGWARTS/imagem_com_XWL8xAeTRtCL9tyCRKUiDw.jpeg',
+            'HOGWARTS/imagem_com_XYauLoaPQ-GiFOtZhmrQYQ.jpeg',
+            'HOGWARTS/imagem_com_y5k3eD1_SIK7hv5YkoXwUw.jpeg',
+            'HOGWARTS/imagem_com_YCpRmrQZQ4ijVNfwdUbBGA.jpeg',
+            'HOGWARTS/imagem_com_Ygl5n5lESh-ZKg8yReVTog.jpeg',
+            'HOGWARTS/imagem_com_YljhxS8zSkyl6oI0YeuyjA.jpeg',
+            'HOGWARTS/imagem_com_ytz_oYl3SviIJMxhFBUUpQ.jpeg',
+            'HOGWARTS/imagem_com_Zd61MABHRpa8HHtJUOe-Ag.jpeg',
+            'HOGWARTS/imagem_com_ZddOaZBORtWePCcVMbrnSQ.jpeg',
+            'HOGWARTS/imagem_com_ZrW_p-gjTyqJ4CMC0KcJqw.jpeg',
+            'HOGWARTS/imagem_com_zyAIovuZSdSJbQ8xoYdMwQ.jpeg',
+            'HOGWARTS/imagem_com__cI7c2-uS_OX2esOWqz6lg.jpeg',
+            'HOGWARTS/imagem_com__dA5h9viQP2FyLmHWQiq-w.jpeg',
+            'HOGWARTS/imagem_com__dGgxiwOSM-86m0Xvte1tQ.jpeg',
+            'HOGWARTS/imagem_com__eI2-1AoQgWkqGjsuERKrg.jpeg',
+            'HOGWARTS/imagem_com__LfDMdUrRpS0EplATa9nyg.jpeg'
+        ];
+
+
+        // Tempos de cada etapa
+        const tempoImagemAntiga = 500; // Tempo para manter a imagem antiga visível (meio segundo)
+        const tempoViradaCarta = 500; // Tempo de virada da carta (0.8 segundos)
+        const tempoEsperaNovaCarta = 500; // Tempo antes de exibir a nova carta (1 segundo)
+        const tempoGiro = 3000; // Tempo total de giro (2.5 segundos para girar várias vezes)
+
+        function sortearCarta() {
+            // Tocar som
+            document.getElementById('somSorteio').play();
+
+            const card = document.getElementById('card');
+            const cardImage = document.getElementById('card-image');
+
+            // Sorteia uma nova carta
+            const indexAleatorio = Math.floor(Math.random() * cartas.length);
+            const carta = cartas[indexAleatorio];
+
+            // Exibe a parte de trás da carta
+            cardImage.src = 'fd1.jpg';
+
+            // Gira a carta várias vezes antes de revelar a nova carta
+            card.style.transition = 'none'; // Remover qualquer transição anterior
+            card.style.transform = 'rotateY(0deg)'; // Resetando a rotação
+
+            // Forçar um "reflow" para reiniciar a animação
+            void card.offsetWidth;
+
+            // Aplicar a animação de rotação
+            card.style.transition = `transform ${tempoGiro}ms ease-in-out`;
+            card.style.transform = 'rotateY(1800deg)'; // Girar 5 vezes (1800 graus)
+
+            // Espera o tempo do giro e depois revela a carta
+            setTimeout(() => {
+                card.classList.add('is-flipped');
+                cardImage.src = `${carta}`;
+            }, tempoGiro);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarot Sorteio</title>
+    <style>
+        body {
+            background-image: url('principal.jpg');
+            background-size: 100% calc(100vh + 2cm);
+            /* Aumenta a altura da imagem em 2 cm */
+            background-position: center top;
+            /* Alinha a imagem ao topo da tela */
+            background-attachment: fixed;
+            /* A imagem fica fixa ao rolar a página */
+            background-repeat: no-repeat;
+            /* Evita que a imagem se repita */
+            font-family: Arial, sans-serif;
+        }
+
+        /* Para dispositivos móveis */
+        @media (max-width: 768px) {
+            body {
+                background-image: url('principal.jpg');
+                background-size: cover;
+                /* Usa 'cover' para garantir que a imagem preencha a tela sem distorção */
+                background-position: center;
+                /* Centraliza a imagem */
+
+            }
+        }
+
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            height: 100vh;
+            /* Faz o container preencher toda a altura da tela */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* Centraliza o conteúdo verticalmente */
+            align-items: center;
+            /* Centraliza o conteúdo horizontalmente */
+            margin-top: 0;
+            /* Remove a margem superior */
+            transform: translate(1.6cm, -1cm);
+            /* posição do container não centralizado */
+
+        }
+
+        /* Ajustes para dispositivos móveis */
+        @media (max-width: 768px) {
+            .container {
+                margin-top: 0;
+                /* Garante que não haja margem superior */
+            }
+        }
+
+
+
+        /* Para dispositivos móveis */
+        @media (max-width: 768px) {
+            .container {
+                height: 100vh;
+                /* Define a altura para 100% da altura da tela */
+                padding: 0;
+                /* Remove o padding para permitir que o contêiner ocupe toda a altura */
+                margin-top: 0;
+                /* Remove a margem superior */
+            }
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: transparent;
+            color: transparent;
+            ;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: transparent;
+            /* Mantém transparente ao passar o mouse */
+        }
+
+        .card-container {
+            position: relative;
+            width: 230px;
+            height: 330px;
+            margin: 20px auto;
+            perspective: 1000px;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+            transform: rotateY(180deg);
+        }
+
+        .card.is-flipped {
+            transform: rotateY(0);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+
+        }
+
+        .card-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+            /* Sombra da imagem */
+
+
+        }
+
+        .card-back {
+            background-image: url('fd1.jpg');
+            background-size: cover;
+            background-position: right center;
+            /* Move a imagem para a direita */
+            transform: rotateY(180deg);
+        }
+
+        /* Botão transparente que cobre o container da carta */
+        .button-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <audio id="somSorteio" src="ms.mp3" preload="auto"></audio>
+    <div class="container">
+        <div class="card-container">
+            <div class="card" id="card">
+                <div class="card-face card-back"></div>
+                <div class="card-face card-front">
+                    <img id="card-image" src="" alt="Carta de Tarot"
+                        style="max-width: 100%; max-height: 100%; border-radius: 10px;">
+                </div>
+            </div>
+            <!-- Botão transparente que cobre a carta inteira -->
+            <button class="button-overlay" onclick="sortearCarta()"></button>
+        </div>
+    </div>
+
+    <script>
+        const cartas = [
+            'TAROT/-oQvu43NQKCLU00EqqpdyQ.jpeg', 'TAROT/-yPzrdceTMSkVVVFNpwDsQ.jpeg', 'TAROT/03P7sjPVSF6dBH7ytOTG_w.jpeg', 'TAROT/0eqhSmvgSI2BYR202b5bkQ.jpeg',
+            'TAROT/1O4e7HUwSZSHYsKWldR-8Q.jpeg', 'TAROT/1v9fjDIFQoyXpk0yl4gXUA.jpeg', 'TAROT/29qAV-aWQhSdvmTrahpPCw.jpeg', 'TAROT/2DT-2jDMRqqWDY1bmKQRcg.jpeg',
+            'TAROT/2GWF-AecS3yqx72Y8lw7dA.jpeg', 'TAROT/2hYx-xIzTzWwu5tI_1wDcw.jpeg', 'TAROT/2o-PdqR9SEivFIL1hfaJ6w.jpeg', 'TAROT/2rwLm60_SzSOs7Hz1y0sNA.jpeg',
+            'TAROT/2yKPl6TiSQiQnygW4zVE4Q.jpeg', 'TAROT/39CPBUNfQsqfqMZiHB8r6w.jpeg', 'TAROT/3EFF7i0GSg-Jwpnhmtc_ng.jpeg', 'TAROT/3hgzZ668T72QdgBJzyaXTQ.jpeg',
+            'TAROT/3vNEFMXERPyBS63_1gbkBg.jpeg', 'TAROT/4lSMtrOuQduCc5OA-tXuSw.jpeg', 'TAROT/4sXPWc53Rb2C2TOeL22J_A.jpeg', 'TAROT/4w_VSXm6QdKab4ATjpDHxw.jpeg',
+            'TAROT/4XfdJ64wQGyv7TEvfTY7Ng.jpeg', 'TAROT/5di0Nz6lQ2q7DBAPUHGglA.jpeg', 'TAROT/5GgtQHpTRw6r1vH8I_mbTw.jpeg', 'TAROT/5jjXKKHjS6a4MLCYaYXylA.jpeg',
+            'TAROT/5qSCKs8hRgC-f4JAsGTbPA.jpeg', 'TAROT/6P-okbzBT8CfUbNaN3jpkA.jpeg', 'TAROT/6SjdwHF5QpiTtmEpaXkmew.jpeg', 'TAROT/6ujkOw8EQAKeYG0K9FJrow.jpeg',
+            'TAROT/6xl53G1xR3umzFR4-37_sw.jpeg', 'TAROT/75LMOvLpRJ6dEh_L6rbNfQ.jpeg', 'TAROT/7Vrc8j56SW-RNaiNKfHNzg.jpeg', 'TAROT/80dZdfqgSp6ziQXleGKqFw.jpeg',
+            'TAROT/8FwZGKSgRpaYPHBqdfSLiQ.jpeg', 'TAROT/8irJcF4bSw601Z0XEpOk8w.jpeg', 'TAROT/8kSYd3KoT5aB_LkhdMUAAw.jpeg', 'TAROT/9Aa3SAbuTjqO58Psr351wA.jpeg',
+            'TAROT/9f_nd4thQSqM0s89HLMwPg.jpeg', 'TAROT/9k1FVAeGSny4zpfO2KMczQ.jpeg', 'TAROT/9Ntqx150Tie6t-X6z_5XKg.jpeg', 'TAROT/aOdB3WceSc2n3gyJmaGEXQ.jpeg',
+            'TAROT/ArNyxax5TzGH8XKr-Ap0xg.jpeg', 'TAROT/BfRp4v4WRbin7tD1APonkQ.jpeg', 'TAROT/BMqwbWe5Qo2aDhK2HYrvsQ.jpeg', 'TAROT/bV1TQiP7QIi2-10jO7l1vQ.jpeg',
+            'TAROT/bzWeDvNiQ_SMC8NgOxX2Tw.jpeg', 'TAROT/C0wK8aZDR2-5OSgA6IQgCw.jpeg', 'TAROT/CK9PB1IQQ1ClFBF6LTwt7g.jpeg', 'TAROT/CQxQQWf6TIGD0CoXvEOaSw.jpeg',
+            'TAROT/D10MTyFkQAS4XhWVpzlXBw.jpeg', 'TAROT/DjCxjy2cRqSZPnelYa-SHw.jpeg', 'TAROT/DKRP-6qfQvmB0jv4sG6W1Q.jpeg', 'TAROT/dM4IvkueRhyHDhn5OsqM-Q.jpeg',
+            'TAROT/Eg4niuhHRYyJgDmz4MhnJA.jpeg', 'TAROT/eldGZsnpTkiRiLNlJgkPKA.jpeg', 'TAROT/ewFn3BJ5SKW2prq4l2LkIQ.jpeg', 'TAROT/F1TySbNIT3ipP7Q5lU8JJw.jpeg',
+            'TAROT/Ff-J2ug4TiOyuQKqcxyAZA.jpeg', 'TAROT/FkYOBfHkTPWY4bYpLrZBXA.jpeg', 'TAROT/fZPQIsYVQjqtN78CrDu5zA.jpeg', 'TAROT/G3y4Rq0WSGupO3dqS8V1kw.jpeg',
+            'TAROT/G7kR47llQoWmyqmziXt5uA.jpeg', 'TAROT/gor9NecLQmKjMOx0RFSv-A.jpeg', 'TAROT/GTz1OE-vSIao2y_QoWaA8A.jpeg', 'TAROT/hggTgR2HSwO5zdP7wofv0A.jpeg',
+            'TAROT/Hiu5ixupTyW4vWJCmfQTTw.jpeg', 'TAROT/HRhPx6bKRaa_vITq4gTv8Q.jpeg', 'TAROT/IJTWsaVqTIqcoAFAsA5EOw.jpeg', 'TAROT/J917UThbTcGJMbC8rdK8mg.jpeg',
+            'TAROT/jsPmR7m0TNyKUbXQxKRfWA.jpeg', 'TAROT/kouOWmnDQWacYVzUPKUOrg.jpeg', 'TAROT/KutbpmjYTKG3HNBTOXKjOA.jpeg', 'TAROT/md_Idg6_QGeHlKtRmhWzVg.jpeg',
+            'TAROT/MJx_aZ-cRIqWX80Xqvm_5Q.jpeg', 'TAROT/mRrW06UHTbitGzeZJTZ-mg.jpeg', 'TAROT/Nla4R0ShR2uu7rjIxOQuyw.jpeg', 'TAROT/nTS4WubuRw-uiTGl2yLTXQ.jpeg',
+            'TAROT/OZYsZDdfTuKoQnXG42B3Vw.jpeg', 'TAROT/P5ihjMemQOWUozEhfVd4SQ.jpeg', 'TAROT/p7P9k2pzQVGbqX0tZ3PNoA.jpeg', 'TAROT/RWUCdF6uTP2aPwHB4hlutw.jpeg',
+            'TAROT/S0LcrdGNRle1upWWl1hJJA.jpeg', 'TAROT/s8GMlByZR7OpbsnoqHysTQ.jpeg', 'TAROT/SyiQMEezS069urQTaJ6qag.jpeg', 'TAROT/t3tf11HGRM3kLUtM7S_v8A.jpeg'
+        ];
+
+
+        // Tempos de cada etapa
+        const tempoImagemAntiga = 500; // Tempo para manter a imagem antiga visível (meio segundo)
+        const tempoViradaCarta = 500; // Tempo de virada da carta (0.8 segundos)
+        const tempoEsperaNovaCarta = 500; // Tempo antes de exibir a nova carta (1 segundo)
+        const tempoGiro = 3000; // Tempo total de giro (2.5 segundos para girar várias vezes)
+
+        function sortearCarta() {
+            // Tocar som
+            document.getElementById('somSorteio').play();
+
+            const card = document.getElementById('card');
+            const cardImage = document.getElementById('card-image');
+
+            // Sorteia uma nova carta
+            const indexAleatorio = Math.floor(Math.random() * cartas.length);
+            const carta = cartas[indexAleatorio];
+
+            // Exibe a parte de trás da carta
+            cardImage.src = 'fd1.jpg';
+
+            // Gira a carta várias vezes antes de revelar a nova carta
+            card.style.transition = 'none'; // Remover qualquer transição anterior
+            card.style.transform = 'rotateY(0deg)'; // Resetando a rotação
+
+            // Forçar um "reflow" para reiniciar a animação
+            void card.offsetWidth;
+
+            // Aplicar a animação de rotação
+            card.style.transition = `transform ${tempoGiro}ms ease-in-out`;
+            card.style.transform = 'rotateY(1800deg)'; // Girar 5 vezes (1800 graus)
+
+            // Espera o tempo do giro e depois revela a carta
+            setTimeout(() => {
+                card.classList.add('is-flipped');
+                cardImage.src = `${carta}`;
+            }, tempoGiro);
+        }
+    </script>
+</body>
+
+</html>

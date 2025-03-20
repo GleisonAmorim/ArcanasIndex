@@ -1,0 +1,5 @@
+1- criar pasta para mudar imagens em formato carta e paisagem para jpeg - Utiliza o 1transoformador.py para transformar em jpeg
+2- separar tudo que está no formato retrato e paisagem, já que paisagem não será necessário renderizar
+3- colocar o fundo das cartas utilizando o padronizador.py
+4- utilizar o renomeador.py para padronizar os nomes dos arquivos
+5- utilizar o listar escrito.py para listar os arquivos no padrão html, padrão de entrada 'pasta/{num}.jpeg', sendo que a pasta é a pasta das imagens e num permanece inalterado já que o sistema transformará numa sequencia de 0 até ...

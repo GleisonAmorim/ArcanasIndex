@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seleção de Opção</title>
+    <title>Seleção de Cartas</title>
     <style>
         /* Estilo global */
         body {
@@ -14,27 +14,32 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background: #f7f7fc;
-            color: #333;
+            background: url('https://www.example.com/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            overflow: hidden;
         }
 
         /* Container principal */
         .container {
             text-align: center;
-            background-color: #fff;
-            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 12px;
             padding: 40px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
             width: 350px;
             max-width: 100%;
+            backdrop-filter: blur(8px);
         }
 
         /* Título */
         h1 {
-            color: #6a4c9c;
+            color: #fff;
+            font-size: 30px;
+            font-weight: 700;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
             margin-bottom: 30px;
-            font-size: 24px;
-            font-weight: 600;
+            letter-spacing: 2px;
         }
 
         /* Botões */
@@ -47,38 +52,43 @@
             font-weight: bold;
             text-transform: uppercase;
             color: #fff;
-            background-color: #6a4c9c;
+            background: linear-gradient(45deg, #6a4c9c, #9c27b0);
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
         }
 
+        /* Efeitos dos botões */
         .btn:hover {
-            background-color: #5a3e8c;
-            transform: translateY(-4px);
+            background: linear-gradient(45deg, #9c27b0, #6a4c9c);
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
+        }
+
+        .btn:active {
+            background: #5a1c7d;
+            transform: translateY(2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
         }
 
         .btn:focus {
             outline: none;
         }
 
-        .btn:active {
-            background-color: #4a3070;
-            transform: translateY(2px);
+        /* Efeito de hover e foco nos botões */
+        .btn:focus-visible {
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.8);
         }
 
-        /* Animação de foco em botões */
-        .btn:focus-visible {
-            box-shadow: 0 0 0 2px rgba(106, 76, 156, 0.8);
-        }
     </style>
 </head>
 
 <body>
 
     <div class="container">
-        <h1>Selecione uma opção</h1>
+        <h1>Escolha sua carta</h1>
         <button class="btn" onclick="window.location.href='index1.html'">Gs</button>
         <button class="btn" onclick="window.location.href='index2.html'">Hogw</button>
         <button class="btn" onclick="window.location.href='index3.html'">IN</button>

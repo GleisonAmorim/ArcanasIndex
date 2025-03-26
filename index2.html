@@ -343,41 +343,37 @@
         const tempoEsperaNovaCarta = 500; // Tempo antes de exibir a nova carta (1 segundo)
         const tempoGiro = 3000; // Tempo total de giro (2.5 segundos para girar várias vezes)
 
-function sortearCarta() {
-    if (sorteando) return; // Se já estiver girando, não faz nada
-    sorteando = true; 
+        function sortearCarta() {
+            // Tocar som
+            document.getElementById('somSorteio').play();
 
-    // Tocar som
-    document.getElementById('somSorteio').play();
+            const card = document.getElementById('card');
+            const cardImage = document.getElementById('card-image');
 
-    const card = document.getElementById('card');
-    const cardImage = document.getElementById('card-image');
+            // Sorteia uma nova carta
+            const indexAleatorio = Math.floor(Math.random() * cartas.length);
+            const carta = cartas[indexAleatorio];
 
-    // Sorteia uma nova carta
-    const indexAleatorio = Math.floor(Math.random() * cartas.length);
-    const novaCarta = cartas[indexAleatorio];
+            // Exibe a parte de trás da carta
+            cardImage.src = 'fd1.jpg';
 
-    // Exibe a parte de trás da carta e inicia a rotação
-    cardImage.src = 'fd1.jpg';
-    card.style.transition = 'none';
-    card.style.transform = 'rotateY(0deg)'; 
+            // Gira a carta várias vezes antes de revelar a nova carta
+            card.style.transition = 'none'; // Remover qualquer transição anterior
+            card.style.transform = 'rotateY(0deg)'; // Resetando a rotação
 
-    void card.offsetWidth; // Reflow para reiniciar animação
+            // Forçar um "reflow" para reiniciar a animação
+            void card.offsetWidth;
 
-    card.style.transition = `transform ${tempoGiro}ms ease-in-out`;
-    card.style.transform = 'rotateY(1800deg)'; // Girar 5 vezes (1800 graus)
+            // Aplicar a animação de rotação
+            card.style.transition = `transform ${tempoGiro}ms ease-in-out`;
+            card.style.transform = 'rotateY(1800deg)'; // Girar 5 vezes (1800 graus)
 
-    setTimeout(() => {
-        card.classList.add('is-flipped');
-        if (novaCarta) {
-            cardImage.src = novaCarta; // Atualiza a carta após o giro
-            console.log(`Carta sorteada: ${novaCarta}`);
-        } else {
-            console.error("Erro: Carta indefinida.");
+            // Espera o tempo do giro e depois revela a carta
+            setTimeout(() => {
+                card.classList.add('is-flipped');
+                cardImage.src = `${carta}`;
+            }, tempoGiro);
         }
-        sorteando = false; // Libera para novo sorteio
-    }, tempoGiro);
-}
     </script>
 </body>
 

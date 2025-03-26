@@ -1,299 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tarot Sorteio</title>
-    <style>
-        body {
-            background-image: url('principal.jpg');
-            background-size: 100% calc(100vh + 2cm);
-            /* Aumenta a altura da imagem em 2 cm */
-            background-position: center top;
-            /* Alinha a imagem ao topo da tela */
-            background-attachment: fixed;
-            /* A imagem fica fixa ao rolar a página */
-            background-repeat: no-repeat;
-            /* Evita que a imagem se repita */
-            font-family: Arial, sans-serif;
-        }
-
-        /* Para dispositivos móveis */
-        @media (max-width: 768px) {
-            body {
-                background-image: url('principal.jpg');
-                background-size: cover;
-                /* Usa'cover'para garantir que a imagem preencha a tela sem distorção */
-                background-position: center;
-                /* Centraliza a imagem */
-
-            }
-        }
-
-
-        .container {
-            text-align: center;
-            padding: 20px;
-            border-radius: 10px;
-            color: white;
-            height: 100vh;
-            /* Faz o container preencher toda a altura da tela */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            /* Centraliza o conteúdo verticalmente */
-            align-items: center;
-            /* Centraliza o conteúdo horizontalmente */
-            margin-top: 0;
-            /* Remove a margem superior */
-            transform: translate(1.6cm, -1cm);
-            /* posição do container não centralizado */
-
-        }
-
-        /* Ajustes para dispositivos móveis */
-        @media (max-width: 768px) {
-            .container {
-                margin-top: 0;
-                /* Garante que não haja margem superior */
-            }
-        }
-
-
-
-        /* Para dispositivos móveis */
-        @media (max-width: 768px) {
-            .container {
-                height: 100vh;
-                /* Define a altura para 100% da altura da tela */
-                padding: 0;
-                /* Remove o padding para permitir que o contêiner ocupe toda a altura */
-                margin-top: 0;
-                /* Remove a margem superior */
-            }
-        }
-
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: transparent;
-            color: transparent;
-            ;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        button:hover {
-            background-color: transparent;
-            /* Mantém transparente ao passar o mouse */
-        }
-
-        .card-container {
-            position: relative;
-            width: 230px;
-            height: 330px;
-            margin: 20px auto;
-            perspective: 1000px;
-        }
-
-        .card {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            transform-style: preserve-3d;
-            transition: transform 0.8s;
-            transform: rotateY(180deg);
-        }
-
-        .card.is-flipped {
-            transform: rotateY(0);
-        }
-
-        .card-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-
-        }
-
-        .card-front img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-            /* Sombra da imagem */
-
-
-        }
-
-        .card-back {
-            background-image: url('fd1.jpg');
-            background-size: cover;
-            background-position: right center;
-            /* Move a imagem para a direita */
-            transform: rotateY(180deg);
-        }
-
-        /* Botão transparente que cobre o container da carta */
-        .button-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-        }
-    </style>
-</head>
-
-<body>
-    <audio id="somSorteio" src="ms.mp3" preload="auto"></audio>
-    <div class="container">
-        <div class="card-container">
-            <div class="card" id="card">
-                <div class="card-face card-back"></div>
-                <div class="card-face card-front">
-                    <img id="card-image" src="" alt="Carta de Tarot"
-                        style="max-width: 100%; max-height: 100%; border-radius: 10px;">
-                </div>
-            </div>
-            <!-- Botão transparente que cobre a carta inteira -->
-            <button class="button-overlay" onclick="sortearCarta()"></button>
-        </div>
-    </div>
-
-    <script>
-        const cartas = [
-'0.jpeg',
-'1.jpeg',
-'10.jpeg',
-'11.jpeg',
-'12.jpeg',
-'13.jpeg',
-'14.jpeg',
-'15.jpeg',
-'16.jpeg',
-'17.jpeg',
-'18.jpeg',
-'19.jpeg',
-'2.jpeg',
-'20.jpeg',
-'21.jpeg',
-'22.jpeg',
-'23.jpeg',
-'24.jpeg',
-'25.jpeg',
-'26.jpeg',
-'27.jpeg',
-'28.jpeg',
-'29.jpeg',
-'3.jpeg',
-'30.jpeg',
-'31.jpeg',
-'32.jpeg',
-'33.jpeg',
-'34.jpeg',
-'35.jpeg',
-'36.jpeg',
-'37.jpeg',
-'38.jpeg',
-'39.jpeg',
-'4.jpeg',
-'40.jpeg',
-'41.jpeg',
-'42.jpeg',
-'43.jpeg',
-'44.jpeg',
-'45.jpeg',
-'46.jpeg',
-'47.jpeg',
-'48.jpeg',
-'49.jpeg',
-'5.jpeg',
-'50.jpeg',
-'51.jpeg',
-'52.jpeg',
-'53.jpeg',
-'54.jpeg',
-'55.jpeg',
-'56.jpeg',
-'57.jpeg',
-'58.jpeg',
-'59.jpeg',
-'6.jpeg',
-'60.jpeg',
-'61.jpeg',
-'62.jpeg',
-'63.jpeg',
-'64.jpeg',
-'65.jpeg',
-'66.jpeg',
-'67.jpeg',
-'68.jpeg',
-'69.jpeg',
-'7.jpeg',
-'70.jpeg',
-'71.jpeg',
-'72.jpeg',
-'73.jpeg',
-'74.jpeg',
-'75.jpeg',
-'76.jpeg',
-'8.jpeg',
-'9.jpeg'
-
-
-        ];
-
-
-        //Tempos de cada etapa
-        const tempoImagemAntiga = 500; //Tempo para manter a imagem antiga visível (meio segundo)
-        const tempoViradaCarta = 500; //Tempo de virada da carta (0.8 segundos)
-        const tempoEsperaNovaCarta = 500; //Tempo antes de exibir a nova carta (1 segundo)
-        const tempoGiro = 3000; //Tempo total de giro (2.5 segundos para girar várias vezes)
-
-        function sortearCarta() {
-            //Tocar som
-            document.getElementById('somSorteio').play();
-
-            const card = document.getElementById('card');
-            const cardImage = document.getElementById('card-image');
-
-            //Sorteia uma nova carta
-            const indexAleatorio = Math.floor(Math.random() * cartas.length);
-            const carta = cartas[indexAleatorio];
-
-            //Exibe a parte de trás da carta
-            cardImage.src = 'fd1.jpg';
-
-            //Gira a carta várias vezes antes de revelar a nova carta
-            card.style.transition = 'none'; //Remover qualquer transição anterior
-            card.style.transform = 'rotateY(0deg)'; //Resetando a rotação
-
-            //Forçar um "reflow" para reiniciar a animação
-            void card.offsetWidth;
-
-            //Aplicar a animação de rotação
-            card.style.transition = `transform ${tempoGiro}ms ease-in-out`;
-            card.style.transform = 'rotateY(1800deg)'; //Girar 5 vezes (1800 graus)
-
-            //Espera o tempo do giro e depois revela a carta
-            setTimeout(() => {
-                card.classList.add('is-flipped');
-                cardImage.src = `${carta}`;
-            }, tempoGiro);
-        }
-    </script>
-</body>
-
-</html>
+'BG3/0.jpeg',
+'BG3/1.jpeg', 
+'BG3/10.jpeg',
+'BG3/11.jpeg',
+'BG3/12.jpeg',
+'BG3/13.jpeg',
+'BG3/14.jpeg',
+'BG3/15.jpeg',
+'BG3/16.jpeg',
+'BG3/17.jpeg',
+'BG3/18.jpeg',
+'BG3/19.jpeg',
+'BG3/2.jpeg', 
+'BG3/20.jpeg',
+'BG3/21.jpeg',
+'BG3/22.jpeg',
+'BG3/23.jpeg',
+'BG3/24.jpeg',
+'BG3/25.jpeg',
+'BG3/26.jpeg',
+'BG3/27.jpeg',
+'BG3/28.jpeg',
+'BG3/29.jpeg',
+'BG3/3.jpeg', 
+'BG3/30.jpeg',
+'BG3/31.jpeg',
+'BG3/32.jpeg',
+'BG3/33.jpeg',
+'BG3/34.jpeg',
+'BG3/35.jpeg',
+'BG3/36.jpeg',
+'BG3/37.jpeg',
+'BG3/38.jpeg',
+'BG3/39.jpeg',
+'BG3/4.jpeg',
+'BG3/40.jpeg',
+'BG3/41.jpeg',
+'BG3/42.jpeg',
+'BG3/43.jpeg',
+'BG3/44.jpeg',
+'BG3/45.jpeg',
+'BG3/46.jpeg',
+'BG3/47.jpeg',
+'BG3/48.jpeg',
+'BG3/49.jpeg',
+'BG3/5.jpeg',
+'BG3/50.jpeg',
+'BG3/51.jpeg',
+'BG3/52.jpeg',
+'BG3/53.jpeg',
+'BG3/54.jpeg',
+'BG3/55.jpeg',
+'BG3/56.jpeg',
+'BG3/57.jpeg',
+'BG3/58.jpeg',
+'BG3/59.jpeg',
+'BG3/6.jpeg',
+'BG3/60.jpeg',
+'BG3/61.jpeg',
+'BG3/62.jpeg',
+'BG3/63.jpeg',
+'BG3/64.jpeg',
+'BG3/65.jpeg',
+'BG3/66.jpeg',
+'BG3/67.jpeg',
+'BG3/68.jpeg',
+'BG3/69.jpeg',
+'BG3/7.jpeg',
+'BG3/70.jpeg',
+'BG3/71.jpeg',
+'BG3/72.jpeg',
+'BG3/73.jpeg',
+'BG3/74.jpeg',
+'BG3/75.jpeg',
+'BG3/76.jpeg',
+'BG3/8.jpeg',
+'BG3/9.jpeg',

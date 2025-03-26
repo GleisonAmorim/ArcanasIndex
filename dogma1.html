@@ -235,18 +235,18 @@
             const carta = cartas[indexAleatorio];
 
             //Exibe a parte de trás da carta
-            cardImage.src = 'fd1.jpg';
+            cardImage.src ='fd1.jpg';
 
             //Gira a carta várias vezes antes de revelar a nova carta
-            card.style.transition = 'none'; //Remover qualquer transição anterior
-            card.style.transform = 'rotateY(0deg)'; //Resetando a rotação
+            card.style.transition ='none'; //Remover qualquer transição anterior
+            card.style.transform ='rotateY(0deg)'; //Resetando a rotação
 
             //Forçar um "reflow" para reiniciar a animação
             void card.offsetWidth;
 
             //Aplicar a animação de rotação
             card.style.transition = `transform ${tempoGiro}ms ease-in-out`;
-            card.style.transform = 'rotateY(1800deg)'; //Girar 5 vezes (1800 graus)
+            card.style.transform ='rotateY(1800deg)'; //Girar 5 vezes (1800 graus)
 
             //Espera o tempo do giro e depois revela a carta
             setTimeout(() => {

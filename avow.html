@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarot Sorteio</title>
+    <style>
+        body {
+            background-image: url('principal.jpg');
+            background-size: 100% calc(100vh + 2cm);
+            /* Aumenta a altura da imagem em 2 cm */
+            background-position: center top;
+            /* Alinha a imagem ao topo da tela */
+            background-attachment: fixed;
+            /* A imagem fica fixa ao rolar a página */
+            background-repeat: no-repeat;
+            /* Evita que a imagem se repita */
+            font-family: Arial, sans-serif;
+        }
+
+        /* Para dispositivos móveis */
+        @media (max-width: 768px) {
+            body {
+                background-image: url('principal.jpg');
+                background-size: cover;
+                /* Usa'cover'para garantir que a imagem preencha a tela sem distorção */
+                background-position: center;
+                /* Centraliza a imagem */
+
+            }
+        }
+
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            height: 100vh;
+            /* Faz o container preencher toda a altura da tela */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* Centraliza o conteúdo verticalmente */
+            align-items: center;
+            /* Centraliza o conteúdo horizontalmente */
+            margin-top: 0;
+            /* Remove a margem superior */
+            transform: translate(1.6cm, -1cm);
+            /* posição do container não centralizado */
+
+        }
+
+        /* Ajustes para dispositivos móveis */
+        @media (max-width: 768px) {
+            .container {
+                margin-top: 0;
+                /* Garante que não haja margem superior */
+            }
+        }
+
+
+
+        /* Para dispositivos móveis */
+        @media (max-width: 768px) {
+            .container {
+                height: 100vh;
+                /* Define a altura para 100% da altura da tela */
+                padding: 0;
+                /* Remove o padding para permitir que o contêiner ocupe toda a altura */
+                margin-top: 0;
+                /* Remove a margem superior */
+            }
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: transparent;
+            color: transparent;
+            ;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: transparent;
+            /* Mantém transparente ao passar o mouse */
+        }
+
+        .card-container {
+            position: relative;
+            width: 230px;
+            height: 330px;
+            margin: 20px auto;
+            perspective: 1000px;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+            transform: rotateY(180deg);
+        }
+
+        .card.is-flipped {
+            transform: rotateY(0);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+
+        }
+
+        .card-front img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+            /* Sombra da imagem */
+
+
+        }
+
+        .card-back {
+            background-image: url('fd1.jpg');
+            background-size: cover;
+            background-position: right center;
+            /* Move a imagem para a direita */
+            transform: rotateY(180deg);
+        }
+
+        /* Botão transparente que cobre o container da carta */
+        .button-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <audio id="somSorteio" src="ms.mp3" preload="auto"></audio>
+    <div class="container">
+        <div class="card-container">
+            <div class="card" id="card">
+                <div class="card-face card-back"></div>
+                <div class="card-face card-front">
+                    <img id="card-image" src="" alt="Carta de Tarot"
+                        style="max-width: 100%; max-height: 100%; border-radius: 10px;">
+                </div>
+            </div>
+            <!-- Botão transparente que cobre a carta inteira -->
+            <button class="button-overlay" onclick="sortearCarta()"></button>
+        </div>
+    </div>
+
+    <script>
+        const cartas = [
+            'AVOWED/0.jpeg',
+            'AVOWED/1.jpeg',
+            'AVOWED/10.jpeg',
+            'AVOWED/11.jpeg',
+            'AVOWED/12.jpeg',
+            'AVOWED/13.jpeg',
+            'AVOWED/14.jpeg',
+            'AVOWED/15.jpeg',
+            'AVOWED/16.jpeg',
+            'AVOWED/17.jpeg',
+            'AVOWED/18.jpeg',
+            'AVOWED/19.jpeg',
+            'AVOWED/2.jpeg',
+            'AVOWED/20.jpeg',
+            'AVOWED/21.jpeg',
+            'AVOWED/22.jpeg',
+            'AVOWED/23.jpeg',
+            'AVOWED/24.jpeg',
+            'AVOWED/25.jpeg',
+            'AVOWED/26.jpeg',
+            'AVOWED/27.jpeg',
+            'AVOWED/28.jpeg',
+            'AVOWED/29.jpeg',
+            'AVOWED/3.jpeg',
+            'AVOWED/30.jpeg',
+            'AVOWED/31.jpeg',
+            'AVOWED/32.jpeg',
+            'AVOWED/33.jpeg',
+            'AVOWED/34.jpeg',
+            'AVOWED/35.jpeg',
+            'AVOWED/36.jpeg',
+            'AVOWED/37.jpeg',
+            'AVOWED/38.jpeg',
+            'AVOWED/39.jpeg',
+            'AVOWED/4.jpeg',
+            'AVOWED/40.jpeg',
+            'AVOWED/41.jpeg',
+            'AVOWED/42.jpeg',
+            'AVOWED/43.jpeg',
+            'AVOWED/44.jpeg',
+            'AVOWED/45.jpeg',
+            'AVOWED/46.jpeg',
+            'AVOWED/47.jpeg',
+            'AVOWED/48.jpeg',
+            'AVOWED/49.jpeg',
+            'AVOWED/5.jpeg',
+            'AVOWED/50.jpeg',
+            'AVOWED/51.jpeg',
+            'AVOWED/52.jpeg',
+            'AVOWED/53.jpeg',
+            'AVOWED/54.jpeg',
+            'AVOWED/55.jpeg',
+            'AVOWED/56.jpeg',
+            'AVOWED/57.jpeg',
+            'AVOWED/58.jpeg',
+            'AVOWED/59.jpeg',
+            'AVOWED/6.jpeg',
+            'AVOWED/60.jpeg',
+            'AVOWED/61.jpeg',
+            'AVOWED/62.jpeg',
+            'AVOWED/63.jpeg',
+            'AVOWED/64.jpeg',
+            'AVOWED/65.jpeg',
+            'AVOWED/66.jpeg',
+            'AVOWED/67.jpeg',
+            'AVOWED/68.jpeg',
+            'AVOWED/69.jpeg',
+            'AVOWED/7.jpeg',
+            'AVOWED/70.jpeg',
+            'AVOWED/71.jpeg',
+            'AVOWED/72.jpeg',
+            'AVOWED/73.jpeg',
+            'AVOWED/74.jpeg',
+            'AVOWED/75.jpeg',
+            'AVOWED/76.jpeg',
+            'AVOWED/77.jpeg',
+            'AVOWED/78.jpeg',
+            'AVOWED/79.jpeg',
+            'AVOWED/8.jpeg',
+            'AVOWED/80.jpeg',
+            'AVOWED/81.jpeg',
+            'AVOWED/82.jpeg',
+            'AVOWED/83.jpeg',
+            'AVOWED/9.jpeg'
+
+        ];
+
+
+        //Tempos de cada etapa
+        const tempoImagemAntiga = 500; //Tempo para manter a imagem antiga visível (meio segundo)
+        const tempoViradaCarta = 500; //Tempo de virada da carta (0.8 segundos)
+        const tempoEsperaNovaCarta = 500; //Tempo antes de exibir a nova carta (1 segundo)
+        const tempoGiro = 3000; //Tempo total de giro (2.5 segundos para girar várias vezes)
+
+        function sortearCarta() {
+            //Tocar som
+            document.getElementById('somSorteio').play();
+
+            const card = document.getElementById('card');
+            const cardImage = document.getElementById('card-image');
+
+            //Sorteia uma nova carta
+            const indexAleatorio = Math.floor(Math.random() * cartas.length);
+            const carta = cartas[indexAleatorio];
+
+            //Exibe a parte de trás da carta
+            cardImage.src = 'fd1.jpg';
+
+            //Gira a carta várias vezes antes de revelar a nova carta
+            card.style.transition = 'none'; //Remover qualquer transição anterior
+            card.style.transform = 'rotateY(0deg)'; //Resetando a rotação
+
+            //Forçar um "reflow" para reiniciar a animação
+            void card.offsetWidth;
+
+            //Aplicar a animação de rotação
+            card.style.transition = `transform ${tempoGiro}ms ease-in-out`;
+            card.style.transform = 'rotateY(1800deg)'; //Girar 5 vezes (1800 graus)
+
+            //Espera o tempo do giro e depois revela a carta
+            setTimeout(() => {
+                card.classList.add('is-flipped');
+                cardImage.src = `${carta}`;
+            }, tempoGiro);
+        }
+    </script>
+</body>
+
+</html>

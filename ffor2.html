@@ -24,7 +24,7 @@
             body {
                 background-image: url('principal.jpg');
                 background-size: cover;
-                /* Usa 'cover' para garantir que a imagem preencha a tela sem distorção */
+                /* Usa'cover'para garantir que a imagem preencha a tela sem distorção */
                 background-position: center;
                 /* Centraliza a imagem */
 
@@ -174,152 +174,97 @@
 
     <script>
         const cartas = [
-            'FOR2/0.jpeg',
-            'FOR2/1.jpeg',
-            'FOR2/2.jpeg',
-            'FOR2/3.jpeg',
-            'FOR2/4.jpeg',
-            'FOR2/5.jpeg',
-            'FOR2/6.jpeg',
-            'FOR2/7.jpeg',
-            'FOR2/8.jpeg',
-            'FOR2/9.jpeg',
-            'FOR2/10.jpeg',
-            'FOR2/11.jpeg',
-            'FOR2/12.jpeg',
-            'FOR2/13.jpeg',
-            'FOR2/14.jpeg',
-            'FOR2/15.jpeg',
-            'FOR2/16.jpeg',
-            'FOR2/17.jpeg',
-            'FOR2/18.jpeg',
-            'FOR2/19.jpeg',
-            'FOR2/20.jpeg',
-            'FOR2/21.jpeg',
-            'FOR2/22.jpeg',
-            'FOR2/23.jpeg',
-            'FOR2/24.jpeg',
-            'FOR2/25.jpeg',
-            'FOR2/26.jpeg',
-            'FOR2/27.jpeg',
-            'FOR2/28.jpeg',
-            'FOR2/29.jpeg',
-            'FOR2/30.jpeg',
-            'FOR2/31.jpeg',
-            'FOR2/32.jpeg',
-            'FOR2/33.jpeg',
-            'FOR2/34.jpeg',
-            'FOR2/35.jpeg',
-            'FOR2/36.jpeg',
-            'FOR2/37.jpeg',
-            'FOR2/38.jpeg',
-            'FOR2/39.jpeg',
-            'FOR2/40.jpeg',
-            'FOR2/41.jpeg',
-            'FOR2/42.jpeg',
-            'FOR2/43.jpeg',
-            'FOR2/44.jpeg',
-            'FOR2/45.jpeg',
-            'FOR2/46.jpeg',
-            'FOR2/47.jpeg',
-            'FOR2/48.jpeg',
-            'FOR2/49.jpeg',
-            'FOR2/50.jpeg',
-            'FOR2/51.jpeg',
-            'FOR2/52.jpeg',
-            'FOR2/53.jpeg',
-            'FOR2/54.jpeg',
-            'FOR2/55.jpeg',
-            'FOR2/56.jpeg',
-            'FOR2/57.jpeg',
-            'FOR2/58.jpeg',
-            'FOR2/59.jpeg',
-            'FOR2/60.jpeg',
-            'FOR2/61.jpeg',
-            'FOR2/62.jpeg',
-            'FOR2/63.jpeg',
-            'FOR2/64.jpeg',
-            'FOR2/65.jpeg',
-            'FOR2/66.jpeg',
-            'FOR2/67.jpeg',
-            'FOR2/68.jpeg',
-            'FOR2/69.jpeg',
-            'FOR2/70.jpeg',
-            'FOR2/71.jpeg',
-            'FOR2/72.jpeg',
-            'FOR2/73.jpeg',
-            'FOR2/74.jpeg',
-            'FOR2/75.jpeg',
-            'FOR2/76.jpeg',
-            'FOR2/77.jpeg',
-            'FOR2/78.jpeg',
-            'FOR2/79.jpeg',
-            'FOR2/80.jpeg',
-            'FOR2/81.jpeg',
-            'FOR2/82.jpeg',
-            'FOR2/83.jpeg',
-            'FOR2/84.jpeg',
-            'FOR2/85.jpeg',
-            'FOR2/86.jpeg',
-            'FOR2/87.jpeg',
-            'FOR2/88.jpeg',
-            'FOR2/89.jpeg',
-            'FOR2/90.jpeg',
-            'FOR2/91.jpeg',
-            'FOR2/92.jpeg',
-            'FOR2/93.jpeg',
-            'FOR2/94.jpeg',
-            'FOR2/95.jpeg',
-            'FOR2/96.jpeg',
-            'FOR2/97.jpeg',
-            'FOR2/98.jpeg',
-            'FOR2/99.jpeg'
-
-
+            'fornovo/0.jpeg',
+            'fornovo/1.jpeg',
+            'fornovo/2.jpeg',
+            'fornovo/3.jpeg',
+            'fornovo/4.jpeg',
+            'fornovo/5.jpeg',
+            'fornovo/6.jpeg',
+            'fornovo/7.jpeg',
+            'fornovo/8.jpeg',
+            'fornovo/9.jpeg',
+            'fornovo/q.jpeg',
+            'fornovo/w.jpeg',
+            'fornovo/e.jpeg',
+            'fornovo/r.jpeg',
+            'fornovo/t.jpeg',
+            'fornovo/y.jpeg',
+            'fornovo/u.jpeg',
+            'fornovo/i.jpeg',
+            'fornovo/o.jpeg',
+            'fornovo/p.jpeg',
+            'fornovo/a.jpeg',
+            'fornovo/s.jpeg'
 
 
 
         ];
 
+        // Mapeamento de teclas para cartas específicas
+        const mapaTeclas = {
+            '0': 'fornovo/0.jpeg',
+            '1': 'fornovo/1.jpeg',
+            '2': 'fornovo/2.jpeg',
+            '3': 'fornovo/3.jpeg',
+            '4': 'fornovo/4.jpeg',
+            '5': 'fornovo/5.jpeg',
+            '6': 'fornovo/6.jpeg',
+            '7': 'fornovo/7.jpeg',
+            '8': 'fornovo/8.jpeg',
+            '9': 'fornovo/9.jpeg',
+            'q': 'fornovo/q.jpeg',
+            'w': 'fornovo/w.jpeg',
+            'e': 'fornovo/e.jpeg',
+            'r': 'fornovo/r.jpeg',
+            't': 'fornovo/t.jpeg',
+            'y': 'fornovo/y.jpeg',
+            'u': 'fornovo/u.jpeg',
+            'i': 'fornovo/i.jpeg',
+            'o': 'fornovo/o.jpeg',
+            'p': 'fornovo/p.jpeg',
+            'a': 'fornovo/a.jpeg',
+            's': 'fornovo/s.jpeg',
 
-        //Tempos de cada etapa
-        const tempoImagemAntiga = 500; //Tempo para manter a imagem antiga visível (meio segundo)
-        const tempoViradaCarta = 500; //Tempo de virada da carta (0.8 segundos)
-        const tempoEsperaNovaCarta = 500; //Tempo antes de exibir a nova carta (1 segundo)
-        const tempoGiro = 3000; //Tempo total de giro (2.5 segundos para girar várias vezes)
 
-        function sortearCarta() {
-            //Tocar som
-            document.getElementById('somSorteio').play();
+        };
+
+        const tempoGiro = 1000;
+
+        function sortearCarta(cartaEspecifica = null) {
+            const som = document.getElementById('somSorteio');
+            som.currentTime = 0;
+            som.play();
 
             const card = document.getElementById('card');
             const cardImage = document.getElementById('card-image');
 
-            //Sorteia uma nova carta
-            const indexAleatorio = Math.floor(Math.random() * cartas.length);
-            const carta = cartas[indexAleatorio];
+            // Gira a carta para as costas
+            card.classList.remove('is-flipped');
 
-            //Exibe a parte de trás da carta
-            cardImage.src = 'fd1.jpg';
+            // Sorteia a nova carta
+            const carta = cartaEspecifica || cartas[Math.floor(Math.random() * cartas.length)];
 
-            //Gira a carta várias vezes antes de revelar a nova carta
-            card.style.transition = 'none'; //Remover qualquer transição anterior
-            card.style.transform = 'rotateY(0deg)'; //Resetando a rotação
-
-            //Forçar um "reflow" para reiniciar a animação
-            void card.offsetWidth;
-
-            //Aplicar a animação de rotação
-            card.style.transition = `transform ${tempoGiro}ms ease-in-out`;
-            card.style.transform = 'rotateY(1800deg)'; //Girar 5 vezes (1800 graus)
-
-            //Espera o tempo do giro e depois revela a carta
+            // Espera a animação terminar (tempo de virar para costas)
             setTimeout(() => {
+                // Troca a imagem enquanto está de costas
+                cardImage.src = carta;
+
+                // Gira a carta para a frente (nova imagem)
                 card.classList.add('is-flipped');
-                cardImage.src = `${carta}`;
             }, tempoGiro);
         }
+
+
+        // Evento de teclado
+        document.addEventListener('keydown', function (event) {
+            const tecla = event.key.toLowerCase();
+            if (mapaTeclas[tecla]) {
+                sortearCarta(mapaTeclas[tecla]);
+            }
+        });
     </script>
+
 </body>
 
 </html>

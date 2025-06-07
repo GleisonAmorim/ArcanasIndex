@@ -24,7 +24,7 @@
             body {
                 background-image: url('principal.jpg');
                 background-size: cover;
-                /* Usa 'cover' para garantir que a imagem preencha a tela sem distorção */
+                /* Usa'cover'para garantir que a imagem preencha a tela sem distorção */
                 background-position: center;
                 /* Centraliza a imagem */
 
@@ -174,128 +174,72 @@
 
     <script>
         const cartas = [
-'BG3/0.jpeg',
-'BG3/1.jpeg', 
-'BG3/10.jpeg',
-'BG3/11.jpeg',
-'BG3/12.jpeg',
-'BG3/13.jpeg',
-'BG3/14.jpeg',
-'BG3/15.jpeg',
-'BG3/16.jpeg',
-'BG3/17.jpeg',
-'BG3/18.jpeg',
-'BG3/19.jpeg',
-'BG3/2.jpeg', 
-'BG3/20.jpeg',
-'BG3/21.jpeg',
-'BG3/22.jpeg',
-'BG3/23.jpeg',
-'BG3/24.jpeg',
-'BG3/25.jpeg',
-'BG3/26.jpeg',
-'BG3/27.jpeg',
-'BG3/28.jpeg',
-'BG3/29.jpeg',
-'BG3/3.jpeg', 
-'BG3/30.jpeg',
-'BG3/31.jpeg',
-'BG3/32.jpeg',
-'BG3/33.jpeg',
-'BG3/34.jpeg',
-'BG3/35.jpeg',
-'BG3/36.jpeg',
-'BG3/37.jpeg',
-'BG3/38.jpeg',
-'BG3/39.jpeg',
-'BG3/4.jpeg',
-'BG3/40.jpeg',
-'BG3/41.jpeg',
-'BG3/42.jpeg',
-'BG3/43.jpeg',
-'BG3/44.jpeg',
-'BG3/45.jpeg',
-'BG3/46.jpeg',
-'BG3/47.jpeg',
-'BG3/48.jpeg',
-'BG3/49.jpeg',
-'BG3/5.jpeg',
-'BG3/50.jpeg',
-'BG3/51.jpeg',
-'BG3/52.jpeg',
-'BG3/53.jpeg',
-'BG3/54.jpeg',
-'BG3/55.jpeg',
-'BG3/56.jpeg',
-'BG3/57.jpeg',
-'BG3/58.jpeg',
-'BG3/59.jpeg',
-'BG3/6.jpeg',
-'BG3/60.jpeg',
-'BG3/61.jpeg',
-'BG3/62.jpeg',
-'BG3/63.jpeg',
-'BG3/64.jpeg',
-'BG3/65.jpeg',
-'BG3/66.jpeg',
-'BG3/67.jpeg',
-'BG3/68.jpeg',
-'BG3/69.jpeg',
-'BG3/7.jpeg',
-'BG3/70.jpeg',
-'BG3/71.jpeg',
-'BG3/72.jpeg',
-'BG3/73.jpeg',
-'BG3/74.jpeg',
-'BG3/75.jpeg',
-'BG3/76.jpeg',
-'BG3/8.jpeg',
-'BG3/9.jpeg'
-
-
-
-
+            'TAROT/0.jpeg', 'TAROT/1.jpeg', 'TAROT/10.jpeg', 'TAROT/11.jpeg', 'TAROT/12.jpeg', 'TAROT/13.jpeg',
+            'TAROT/14.jpeg', 'TAROT/15.jpeg', 'TAROT/16.jpeg', 'TAROT/17.jpeg', 'TAROT/18.jpeg', 'TAROT/19.jpeg',
+            'TAROT/2.jpeg', 'TAROT/20.jpeg', 'TAROT/21.jpeg', 'TAROT/22.jpeg', 'TAROT/23.jpeg', 'TAROT/24.jpeg',
+            'TAROT/25.jpeg', 'TAROT/26.jpeg', 'TAROT/27.jpeg', 'TAROT/28.jpeg', 'TAROT/29.jpeg', 'TAROT/3.jpeg',
+            'TAROT/30.jpeg', 'TAROT/31.jpeg', 'TAROT/32.jpeg', 'TAROT/33.jpeg', 'TAROT/34.jpeg', 'TAROT/35.jpeg',
+            'TAROT/36.jpeg', 'TAROT/37.jpeg', 'TAROT/38.jpeg', 'TAROT/39.jpeg', 'TAROT/4.jpeg', 'TAROT/40.jpeg',
+            'TAROT/41.jpeg', 'TAROT/42.jpeg', 'TAROT/43.jpeg', 'TAROT/44.jpeg', 'TAROT/45.jpeg', 'TAROT/46.jpeg',
+            'TAROT/47.jpeg', 'TAROT/48.jpeg', 'TAROT/49.jpeg', 'TAROT/5.jpeg', 'TAROT/50.jpeg', 'TAROT/51.jpeg',
+            'TAROT/52.jpeg', 'TAROT/53.jpeg', 'TAROT/54.jpeg', 'TAROT/55.jpeg', 'TAROT/56.jpeg', 'TAROT/57.jpeg',
+            'TAROT/58.jpeg', 'TAROT/59.jpeg', 'TAROT/6.jpeg', 'TAROT/60.jpeg', 'TAROT/61.jpeg', 'TAROT/62.jpeg',
+            'TAROT/63.jpeg', 'TAROT/64.jpeg', 'TAROT/65.jpeg', 'TAROT/66.jpeg', 'TAROT/67.jpeg', 'TAROT/68.jpeg',
+            'TAROT/69.jpeg', 'TAROT/7.jpeg', 'TAROT/70.jpeg', 'TAROT/71.jpeg', 'TAROT/72.jpeg', 'TAROT/73.jpeg',
+            'TAROT/74.jpeg', 'TAROT/75.jpeg', 'TAROT/76.jpeg', 'TAROT/77.jpeg', 'TAROT/78.jpeg', 'TAROT/79.jpeg',
+            'TAROT/8.jpeg', 'TAROT/80.jpeg', 'TAROT/81.jpeg', 'TAROT/82.jpeg', 'TAROT/83.jpeg', 'TAROT/84.jpeg',
+            'TAROT/85.jpeg', 'TAROT/86.jpeg', 'TAROT/87.jpeg', 'TAROT/88.jpeg', 'TAROT/89.jpeg', 'TAROT/9.jpeg',
+            'TAROT/90.jpeg', 'TAROT/91.jpeg', 'TAROT/92.jpeg', 'TAROT/93.jpeg', 'TAROT/95.jpeg'
         ];
 
+        // Mapeamento de teclas para cartas específicas
+        const mapaTeclas = {
+            'a': 'TAROT/0.jpeg',
+            'b': 'TAROT/1.jpeg',
+            'c': 'TAROT/2.jpeg',
+            'd': 'TAROT/3.jpeg',
+            '1': 'TAROT/10.jpeg',
+            '2': 'TAROT/11.jpeg',
+            '3': 'TAROT/12.jpeg',
+            // Adicione quantas quiser...
+        };
 
-        //Tempos de cada etapa
-        const tempoImagemAntiga = 500; //Tempo para manter a imagem antiga visível (meio segundo)
-        const tempoViradaCarta = 500; //Tempo de virada da carta (0.8 segundos)
-        const tempoEsperaNovaCarta = 500; //Tempo antes de exibir a nova carta (1 segundo)
-        const tempoGiro = 3000; //Tempo total de giro (2.5 segundos para girar várias vezes)
+        const tempoGiro = 1000;
 
-        function sortearCarta() {
-            //Tocar som
-            document.getElementById('somSorteio').play();
+        function sortearCarta(cartaEspecifica = null) {
+            const som = document.getElementById('somSorteio');
+            som.currentTime = 0;
+            som.play();
 
             const card = document.getElementById('card');
             const cardImage = document.getElementById('card-image');
 
-            //Sorteia uma nova carta
-            const indexAleatorio = Math.floor(Math.random() * cartas.length);
-            const carta = cartas[indexAleatorio];
+            // Gira a carta para as costas
+            card.classList.remove('is-flipped');
 
-            //Exibe a parte de trás da carta
-            cardImage.src = 'fd1.jpg';
+            // Sorteia a nova carta
+            const carta = cartaEspecifica || cartas[Math.floor(Math.random() * cartas.length)];
 
-            //Gira a carta várias vezes antes de revelar a nova carta
-            card.style.transition = 'none'; //Remover qualquer transição anterior
-            card.style.transform = 'rotateY(0deg)'; //Resetando a rotação
-
-            //Forçar um "reflow" para reiniciar a animação
-            void card.offsetWidth;
-
-            //Aplicar a animação de rotação
-            card.style.transition = `transform ${tempoGiro}ms ease-in-out`;
-            card.style.transform = 'rotateY(1800deg)'; //Girar 5 vezes (1800 graus)
-
-            //Espera o tempo do giro e depois revela a carta
+            // Espera a animação terminar (tempo de virar para costas)
             setTimeout(() => {
+                // Troca a imagem enquanto está de costas
+                cardImage.src = carta;
+
+                // Gira a carta para a frente (nova imagem)
                 card.classList.add('is-flipped');
-                cardImage.src = `${carta}`;
             }, tempoGiro);
         }
+
+
+        // Evento de teclado
+        document.addEventListener('keydown', function (event) {
+            const tecla = event.key.toLowerCase();
+            if (mapaTeclas[tecla]) {
+                sortearCarta(mapaTeclas[tecla]);
+            }
+        });
     </script>
+
 </body>
 
 </html>

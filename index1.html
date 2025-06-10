@@ -32,23 +32,26 @@
         }
 
 
-        .card-container {
-            position: relative;
-            width: 180px;
-            /* Base width */
-            height: 320px;
-            /* (180 / 9) * 16 = 20 * 16 = 320px (9:16 aspect ratio) */
-            margin: 20px auto;
-            perspective: 1000px;
+        .container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            height: 100vh;
+            /* Faz o container preencher toda a altura da tela */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            /* Centraliza o conteúdo verticalmente */
+            align-items: center;
+            /* Centraliza o conteúdo horizontalmente */
+            margin-top: 0;
+            /* Remove a margem superior */
+            transform: translate(1.6cm, -1cm);
+            /* posição do container não centralizado */
+
         }
 
-            .card-back {
-            background-image: url('fd2.jpg');
-            background-size: cover;
-            background-position: right center;
-            /* Move a imagem para a direita */
-            transform: rotateY(180deg);
-        }
         /* Ajustes para dispositivos móveis */
         @media (max-width: 768px) {
             .container {
@@ -90,10 +93,20 @@
 
         .card-container {
             position: relative;
-            width: 230px;
-            height: 330px;
+            width: 180px;
+            /* Base width */
+            height: 320px;
+            /* (180 / 9) * 16 = 20 * 16 = 320px (9:16 aspect ratio) */
             margin: 20px auto;
             perspective: 1000px;
+        }
+
+            .card-back {
+            background-image: url('fd2.jpg');
+            background-size: cover;
+            background-position: right center;
+            /* Move a imagem para a direita */
+            transform: rotateY(180deg);
         }
 
         .card {
@@ -130,6 +143,7 @@
 
 
         }
+
 
         /* Botão transparente que cobre o container da carta */
         .button-overlay {

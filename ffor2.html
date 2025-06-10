@@ -93,10 +93,20 @@
 
         .card-container {
             position: relative;
-            width: 230px;
-            height: 330px;
+            width: 180px;
+            /* Base width */
+            height: 320px;
+            /* (180 / 9) * 16 = 20 * 16 = 320px (9:16 aspect ratio) */
             margin: 20px auto;
             perspective: 1000px;
+        }
+
+            .card-back {
+            background-image: url('fd2.jpg');
+            background-size: cover;
+            background-position: right center;
+            /* Move a imagem para a direita */
+            transform: rotateY(180deg);
         }
 
         .card {
@@ -134,13 +144,6 @@
 
         }
 
-        .card-back {
-            background-image: url('fd1.jpg');
-            background-size: cover;
-            background-position: right center;
-            /* Move a imagem para a direita */
-            transform: rotateY(180deg);
-        }
 
         /* Botão transparente que cobre o container da carta */
         .button-overlay {
